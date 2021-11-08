@@ -1,0 +1,29 @@
+{
+  "name": "explore",
+  "version": "1.0.0",
+  "description": "web-app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Waleed-abdullah/Social-media-web-app-API.git"
+  },
+  "author": "Nouman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Waleed-abdullah/Social-media-web-app-API/issues"
+  },
+  "homepage": "https://github.com/Waleed-abdullah/Social-media-web-app-API#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "install": "^0.13.0",
+    "mysql2": "^2.3.3-rc.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
