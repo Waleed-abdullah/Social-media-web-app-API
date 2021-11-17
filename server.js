@@ -1,8 +1,12 @@
 import {} from 'dotenv/config';
 import express, { json } from 'express';
 import { createConnection } from 'mysql2';
+import cors from 'cors';
+import handleSignIn from './controllers/handleSignIn.js';
 
 const app = express();
+app.use(json());
+app.use(cors());
 
 const connection = createConnection({
   host: process.env.SQL_HOST,
@@ -10,6 +14,10 @@ const connection = createConnection({
   password: process.env.SQL_PASSWORD,
   database: process.env.SQL_DATABASE,
   port: process.env.SQL_PORT,
+});
+
+app.post('/signin', (req, res) => {
+  handleSignIn(req, res, connection);
 });
 
 connection.connect((err) => {
