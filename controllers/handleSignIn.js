@@ -1,6 +1,9 @@
 const handleSignIn = (req, res, db) => {
   const { uid, name, email, region } = req.body;
 
+  //check for data from front - end
+  if (!email || !uid) return res.status(400);
+
   //check if user exists, if not then route to save profile and save the user data
   db.promise()
     .query('SELECT * FROM `user` WHERE `email` = ?', [email])
@@ -9,7 +12,7 @@ const handleSignIn = (req, res, db) => {
       const [user] = results;
       console.log(user);
       if (!user) {
-        db.query('INSERT INTO `user` VALUES(?, ?, ?, ?)', [
+        db.execute('INSERT INTO `user` VALUES(?, ?, ?, ?)', [
           uid,
           email,
           name,
