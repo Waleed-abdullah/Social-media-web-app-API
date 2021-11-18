@@ -3,6 +3,7 @@ import express, { json } from 'express';
 import { createConnection } from 'mysql2';
 import cors from 'cors';
 import handleSignIn from './controllers/handleSignIn.js';
+import handleSaveProfile from './controllers/handleSaveProfile.js';
 
 const app = express();
 app.use(json());
@@ -14,6 +15,10 @@ const connection = createConnection({
   password: process.env.SQL_PASSWORD,
   database: process.env.SQL_DATABASE,
   port: process.env.SQL_PORT,
+});
+
+app.post('/saveProfile', (req, res) => {
+  handleSaveProfile(req, res, connection);
 });
 
 app.post('/signin', (req, res) => {
