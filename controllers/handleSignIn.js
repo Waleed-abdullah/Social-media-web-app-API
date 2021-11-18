@@ -10,7 +10,6 @@ const handleSignIn = (req, res, db) => {
     .then((output) => {
       const [results, fields] = output;
       const [user] = results;
-      console.log(user);
       if (!user) {
         db.execute('INSERT INTO `user` VALUES(?, ?, ?, ?)', [
           uid,
@@ -23,7 +22,7 @@ const handleSignIn = (req, res, db) => {
         return res.status(200).json({ route: 'homepage' });
       }
     })
-    .catch(console.log);
+    .catch(() => res.status(500));
 };
 
 export default handleSignIn;
