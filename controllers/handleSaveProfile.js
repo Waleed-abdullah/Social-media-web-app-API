@@ -1,25 +1,35 @@
 const handleSaveProfile = (req, res, db) => {
-  const { name, email, region, interests } = req.body;
-
+  const { uid, name, email, region, interests } = req.body;
+  console.log(req.body);
   //check for invalid input
-  if (!name || !region || !interests) return res.status(400);
+  if (!uid || !email || !name || !region || !interests)
+    return res.status(400).json('invalid input');
 
   //update the new values for region and name
-  db.execute('UPDATE `user` SET `name` = ?, `region` = ? WHERE `email` = ?', [
-    name,
-    region,
-    email,
-  ]);
+  try {
+    db.execute('INSERT INTO `user` VALUES(?, ?, ?, ?)', [
+      uid,
+      email,
+      name,
+      region,
+    ]);
+  } catch (error) {
+    return res.status(500).json('unable to save data');
+  }
 
   //add the interests to the interests table
   for (const interest of interests) {
-    db.execute(
-      'INSERT INTO `user_interset` VALUES((SELECT `userID` FROM `user` WHERE `email` = ?), (SELECT `interestID` FROM `interest` WHERE `interestName` = ?))',
-      [email, interest]
-    );
+    try {
+      db.execute(
+        'INSERT INTO `user_interest` VALUES((SELECT `userID` FROM `user` WHERE `email` = ?), (SELECT `interestID` FROM `interest` WHERE `interestName` = ?))',
+        [email, interest]
+      );
+    } catch (error) {
+      res.status(500).json('unable to register');
+    }
   }
 
-  return res.status(200).json({ setRoute: 'Homepage' });
+  return res.status(200).json({ uid });
 };
 
 export default handleSaveProfile;

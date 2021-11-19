@@ -1,6 +1,5 @@
 const handleSignIn = (req, res, db) => {
-  const { uid, name, email, region } = req.body;
-
+  const { uid, email } = req.body;
   //check for data from front - end
   if (!email || !uid) return res.status(400);
 
@@ -11,15 +10,10 @@ const handleSignIn = (req, res, db) => {
       const [results, fields] = output;
       const [user] = results;
       if (!user) {
-        db.execute('INSERT INTO `user` VALUES(?, ?, ?, ?)', [
-          uid,
-          email,
-          name,
-          region,
-        ]);
-        return res.status(404).json({ route: 'saveProfile' });
+        //respond with the user object
+        return res.status(404).json(user);
       } else {
-        return res.status(200).json({ route: 'homepage' });
+        return res.status(200).json(user);
       }
     })
     .catch(() => res.status(500));
