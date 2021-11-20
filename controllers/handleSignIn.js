@@ -15,7 +15,7 @@ const handleSignIn = (req, res, db) => {
         console.log('User is null')
         return res.json({user: null});
       } else {
-        return res.status(200).json(user);
+        return res.status(200).json({user});
       }
     })
     .catch(() => res.status(500));
