@@ -4,6 +4,8 @@ import { createConnection } from 'mysql2';
 import cors from 'cors';
 import handleSignIn from './controllers/handleSignIn.js';
 import handleSaveProfile from './controllers/handleSaveProfile.js';
+import handleSavePost from './controllers/handleSavePost.js';
+import handleGetPosts from './controllers/handleGetPosts.js';
 import multer from 'multer'
 import path from 'path'
 
@@ -11,8 +13,6 @@ const __dirname = path.resolve()
 const app = express();
 app.use(json());
 app.use(cors());
-
-app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));
 
 const connection = createConnection({
   host: process.env.SQL_HOST,
@@ -22,14 +22,6 @@ const connection = createConnection({
   port: process.env.SQL_PORT,
 });
 
-app.post('/saveProfile', (req, res) => {
-  handleSaveProfile(req, res, connection);
-});
-
-app.post('/signin', (req, res) => {
-  handleSignIn(req, res, connection);
-});
-
 connection.connect((err) => {
   if (err) {
     throw err;
@@ -37,6 +29,27 @@ connection.connect((err) => {
     console.log('Connected');
   }
 });
+
+app.get('/', (req,res) => res.status(200).send('Hello World'))
+
+app.post('/saveProfile', async (req, res) => {
+  handleSaveProfile(req, res, connection);
+});
+
+app.post('/upload/post', async (req, res) => {
+  handleSavePost(req, res, connection)
+})
+
+app.post('/signin', async (req, res) => {
+  handleSignIn(req, res, connection);
+});
+
+app.get('/borrow/post/:id', async (req, res) => {
+  handleGetPosts(req, res, connection)
+})
+
+app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));
+
 
 let storage = multer.diskStorage({
   destination: (req, file, callBack) => {
@@ -51,21 +64,30 @@ let upload = multer({
   storage: storage
 });
 
-app.post("/upload", upload.single('file'), (req, res) => {
+app.post("/upload/postImage", upload.single('file'), (req, res) => {
   if (!req.file) {
       console.log("No file upload");
-  } else {
+  } 
+  else {
       console.log(req.file.filename)
-      let imgsrc = req.file.filename
-      let userID = "nansjansjansjnd"
-      let insertData = 'INSERT INTO `post` (postImage) VALUES(?)'
-      connection.query(insertData, [imgsrc, userID], (err, result) => {
+      res.status(201).send(req.file.filename)
+  }
+});
+
+
+
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Listening to localhost:${port}`));
+
+
+/*
+let insertData = 'INSERT INTO `post` (postImage) VALUES(?)'
+      connection.query(insertData, [imgsrc], (err, result) => {
           if (err) {throw err}
           console.log("file uploaded")
           res.status(201).send(req.file.filename)
       })
-  }
-});
+*/
 
 /*
 app.get("/retrieve", (req, res) => {
@@ -89,6 +111,3 @@ app.get("/retrieve", (req, res) => {
   })
 })
 */
-
-const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Listening to localhost:${port}`));
