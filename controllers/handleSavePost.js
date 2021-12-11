@@ -6,7 +6,17 @@ const handleSavePost = (req, res, db) => {
             postText,
             postImage,
         ], (err, result) => {
-            res.status(200).json({postID: result.insertId})
+            let postID = result.insertId
+
+            db.promise()
+            .query('SELECT `postTimestamp`, `postID` FROM  `post` WHERE postID = ?', [postID])
+            .then((output) => {
+                const [results, fields] = output
+                const [result] = results
+                console.log(result)
+                return res.status(200).json({postID: result.postID, postTimestamp: result.postTimestamp})
+            })
+            .catch(() => res.status(500))
         })
     }
     catch(error) {

@@ -44,7 +44,7 @@ app.post('/signin', async (req, res) => {
   handleSignIn(req, res, connection);
 });
 
-app.get('/borrow/post/:id', async (req, res) => {
+app.get('/get/post/:id', async (req, res) => {
   handleGetPosts(req, res, connection)
 })
 

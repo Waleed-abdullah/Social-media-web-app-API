@@ -6,7 +6,7 @@ const handleGetPosts = (req, res, db) => {
     console.log('In handleGetPosts')
 
     db.promise()
-    .query('SELECT `postID`, `postText`, `postImage`, `name`, `userID` FROM  `post` NATURAL JOIN `user` WHERE `userID` = ?', [userID])
+    .query('SELECT `postID`, `postText`, `postImage`, `name`, `userID`, `photoURL`, `postTimestamp` FROM  `post` NATURAL JOIN `user` WHERE `userID` = ?', [userID])
     .then((output) => {
         const [results, fields] = output
         console.log(results)
