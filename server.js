@@ -6,8 +6,10 @@ import handleSignIn from './controllers/handleSignIn.js';
 import handleSaveProfile from './controllers/handleSaveProfile.js';
 import handleSavePost from './controllers/handleSavePost.js';
 import handleGetPosts from './controllers/handleGetPosts.js';
+import handleGetComments from './controllers/handleGetComments.js';
 import multer from 'multer'
 import path from 'path'
+import handleSaveComments from './controllers/handleSaveComments.js';
 
 const __dirname = path.resolve()
 const app = express();
@@ -48,6 +50,15 @@ app.get('/get/post/:id', async (req, res) => {
   handleGetPosts(req, res, connection)
 })
 
+app.get('/get/comment/:id', async (req, res) => {
+  handleGetComments(req, res, connection)
+})
+
+app.post('/upload/comment', async (req, res) => {
+  console.log('in handlesavecomments')
+  handleSaveComments(req, res, connection)
+})
+
 app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));
 
 
@@ -73,7 +84,6 @@ app.post("/upload/postImage", upload.single('file'), (req, res) => {
       res.status(201).send(req.file.filename)
   }
 });
-
 
 
 const port = process.env.PORT || 5000;

@@ -9,6 +9,9 @@ const handleGetPosts = (req, res, db) => {
     .query('SELECT `postID`, `postText`, `postImage`, `name`, `userID`, `photoURL`, `postTimestamp` FROM  `post` NATURAL JOIN `user` WHERE `userID` = ?', [userID])
     .then((output) => {
         const [results, fields] = output
+        results.sort((a,b) => {
+           return b.postTimestamp - a.postTimestamp
+        })
         console.log(results)
         return res.status(200).json({results})
     })
