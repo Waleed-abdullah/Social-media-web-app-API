@@ -1,5 +1,6 @@
 const handleSavePost = (req, res, db) => {
-    const { userID, postText, postImage } = req.body
+    let { userID, postText, postImage } = req.body
+    if(postText === ''){postText=null}
     try {
         db.query('INSERT INTO `post` (`userID`, `postText`, `postImage`) VALUES(?,?,?)', [
             userID,
