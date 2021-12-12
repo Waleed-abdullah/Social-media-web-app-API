@@ -8,6 +8,7 @@ import handleSavePost from './controllers/handleSavePost.js';
 import handleGetPosts from './controllers/handleGetPosts.js';
 import handleGetComments from './controllers/handleGetComments.js';
 import handleGetUsers from './controllers/handleGetUsers.js';
+import handleGetInterests from './controllers/handleGetInterests.js';
 import multer from 'multer'
 import path from 'path'
 import handleSaveComments from './controllers/handleSaveComments.js';
@@ -56,13 +57,15 @@ app.get('/get/comment/:id', async (req, res) => {
 })
 
 app.post('/upload/comment', async (req, res) => {
-  console.log('in handlesavecomments')
   handleSaveComments(req, res, connection)
 })
 
 app.get('/get/users/:search', async (req, res) => {
-  console.log('in search users')
   handleGetUsers(req, res, connection)
+})
+
+app.get('/get/interests/:id', async (req, res) => {
+  handleGetInterests(req, res, connection)
 })
 
 app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));

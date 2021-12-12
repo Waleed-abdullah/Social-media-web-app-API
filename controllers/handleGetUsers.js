@@ -4,7 +4,7 @@ const handleGetUsers = (req, res, db) => {
     console.log('In search')    
 
     db.promise()
-    .query(`SELECT name FROM user WHERE name LIKE '%${search}%'`, [search])
+    .query(`SELECT name, userID, photoURL, region FROM user WHERE name LIKE '%${search}%'`, [search])
     .then((output) => {
         const [results, fields] = output
         console.log(output)
