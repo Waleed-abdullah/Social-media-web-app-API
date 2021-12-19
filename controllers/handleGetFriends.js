@@ -1,11 +1,9 @@
 const handleGetFriends = (req, res, db) => {
   const { userID, email } = req.body;
-  if (!userID) return res.status(400);
-  let friendList = [];
-  //console.log('uwu');
+  if (!userID) return res.status(400).json('Invalid input');
   db.promise()
     .query(
-      'SELECT `name`, `userID` FROM `user` WHERE userID IN (SELECT `friendID` FROM friend WHERE `userID` = ?) ',
+      'SELECT `name`, `userID` FROM `user` WHERE userID IN (SELECT `friendID` FROM friend WHERE `userID` = ?)',
       [userID]
     )
     .then((output) => {
