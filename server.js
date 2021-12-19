@@ -20,6 +20,7 @@ import handleDeleteLike from './controllers/handleDeleteLike.js';
 import handleDeleteRequest from './controllers/handleDeleteRequest.js';
 import handleGetFriends from './controllers/handleGetFriends.js';
 import handleGetNotifRequests from './controllers/handleGetNotifRequests.js';
+import handleRejectRequest from './controllers/handleRejectRequest.js';
 
 const __dirname = path.resolve();
 const app = express();
@@ -54,6 +55,10 @@ app.post('/upload/post', async (req, res) => {
 
 app.get('/notif/requests', async (req, res) => {
   handleGetNotifRequests(req, res, connection);
+});
+
+app.delete('/reject', async (req, res) => {
+  handleRejectRequest(req, res, connection);
 });
 
 app.post('/signin', async (req, res) => {
