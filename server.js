@@ -11,10 +11,13 @@ import handleGetUsers from './controllers/handleGetUsers.js';
 import handleGetInterests from './controllers/handleGetInterests.js';
 import handleSetLike from './controllers/handleSetLike.js';
 import handleGetLike from './controllers/handleGetLike.js';
+import handleSendRequest from './controllers/handleSendRequest.js';
+import handleGetRequested from './controllers/handleGetRequested.js';
 import multer from 'multer'
 import path from 'path'
 import handleSaveComments from './controllers/handleSaveComments.js';
 import handleDeleteLike from './controllers/handleDeleteLike.js';
+import handleDeleteRequest from './controllers/handleDeleteRequest.js';
 
 const __dirname = path.resolve()
 const app = express();
@@ -81,6 +84,18 @@ app.delete('/delete/like', async (req, res) => {
 
 app.get('/get/like', async (req, res) => {
   handleGetLike(req, res, connection)
+})
+
+app.post('/send/request', async (req, res) => {
+  handleSendRequest(req, res, connection)
+})
+
+app.get('/get/requested', async (req, res) => {
+  handleGetRequested(req, res, connection)
+})
+
+app.delete('/delete/request', async (req, res) => {
+  handleDeleteRequest(req, res, connection)
 })
 
 app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));
