@@ -14,7 +14,6 @@ const handleSavePost = (req, res, db) => {
             .then((output) => {
                 const [results, fields] = output
                 const [result] = results
-                console.log(result)
                 return res.status(200).json({postID: result.postID, postTimestamp: result.postTimestamp})
             })
             .catch(() => res.status(500))

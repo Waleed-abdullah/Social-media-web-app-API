@@ -1,6 +1,5 @@
 const handleSaveProfile = (req, res, db) => {
   const { uid, name, email, region, interests, photoURL } = req.body;
-  console.log(req.body);
   //check for invalid input
   if (!uid || !email || !name || !region || !interests)
     return res.status(400).json('invalid input');
