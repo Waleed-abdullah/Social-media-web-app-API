@@ -19,6 +19,7 @@ import handleSaveComments from './controllers/handleSaveComments.js';
 import handleDeleteLike from './controllers/handleDeleteLike.js';
 import handleDeleteRequest from './controllers/handleDeleteRequest.js';
 import handleGetFriends from './controllers/handleGetFriends.js';
+import handleGetNotifRequests from './controllers/handleGetNotifRequests.js';
 
 const __dirname = path.resolve();
 const app = express();
@@ -49,6 +50,10 @@ app.post('/saveProfile', async (req, res) => {
 
 app.post('/upload/post', async (req, res) => {
   handleSavePost(req, res, connection);
+});
+
+app.get('/notif/requests', async (req, res) => {
+  handleGetNotifRequests(req, res, connection);
 });
 
 app.post('/signin', async (req, res) => {
