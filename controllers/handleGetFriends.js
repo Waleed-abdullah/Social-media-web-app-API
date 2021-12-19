@@ -1,5 +1,6 @@
 const handleGetFriends = (req, res, db) => {
-  const { userID, email } = req.body;
+  const { userID, email } = req.query;
+  console.log(userID)
   if (!userID) return res.status(400).json('Invalid input');
   db.promise()
     .query(
@@ -8,6 +9,7 @@ const handleGetFriends = (req, res, db) => {
     )
     .then((output) => {
       const [results, fields] = output;
+      console.log(results)
       return res.status(200).json(results);
     })
     .catch((error) => {
