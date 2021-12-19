@@ -13,7 +13,7 @@ const handleSignIn = (req, res, db) => {
       if (!user) {
         //respond with the user object
         console.log('User is null');
-        return res.status(400).json({ user: null });
+        return res.status(404).json({ user: null });
       } else {
         return res.status(200).json({ user });
       }

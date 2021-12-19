@@ -9,11 +9,12 @@ import handleGetPosts from './controllers/handleGetPosts.js';
 import handleGetComments from './controllers/handleGetComments.js';
 import handleGetUsers from './controllers/handleGetUsers.js';
 import handleGetInterests from './controllers/handleGetInterests.js';
-import multer from 'multer'
-import path from 'path'
+import multer from 'multer';
+import path from 'path';
 import handleSaveComments from './controllers/handleSaveComments.js';
+import handleGetFriends from './controllers/handleGetFriends.js';
 
-const __dirname = path.resolve()
+const __dirname = path.resolve();
 const app = express();
 app.use(json());
 app.use(cors());
@@ -34,70 +35,73 @@ connection.connect((err) => {
   }
 });
 
-app.get('/', (req,res) => res.status(200).send('Hello World'))
+app.get('/', (req, res) => res.status(200).send('Hello World'));
 
 app.post('/saveProfile', async (req, res) => {
   handleSaveProfile(req, res, connection);
 });
 
 app.post('/upload/post', async (req, res) => {
-  handleSavePost(req, res, connection)
-})
+  handleSavePost(req, res, connection);
+});
 
 app.post('/signin', async (req, res) => {
   handleSignIn(req, res, connection);
 });
 
 app.get('/get/post/:id', async (req, res) => {
-  handleGetPosts(req, res, connection)
-})
+  handleGetPosts(req, res, connection);
+});
+
+app.get('/friends', async (req, res) => {
+  handleGetFriends(req, res, connection);
+});
 
 app.get('/get/comment/:id', async (req, res) => {
-  handleGetComments(req, res, connection)
-})
+  handleGetComments(req, res, connection);
+});
 
 app.post('/upload/comment', async (req, res) => {
-  handleSaveComments(req, res, connection)
-})
+  handleSaveComments(req, res, connection);
+});
 
 app.get('/get/users/:search', async (req, res) => {
-  handleGetUsers(req, res, connection)
-})
+  handleGetUsers(req, res, connection);
+});
 
 app.get('/get/interests/:id', async (req, res) => {
-  handleGetInterests(req, res, connection)
-})
+  handleGetInterests(req, res, connection);
+});
 
 app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));
 
-
 let storage = multer.diskStorage({
   destination: (req, file, callBack) => {
-      callBack(null, './public/images/')     // './public/images/' directory name where save the file
+    callBack(null, './public/images/'); // './public/images/' directory name where save the file
   },
   filename: (req, file, callBack) => {
-      callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-  }
-})
+    callBack(
+      null,
+      file.fieldname + '-' + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
 
 let upload = multer({
-  storage: storage
+  storage: storage,
 });
 
-app.post("/upload/postImage", upload.single('file'), (req, res) => {
+app.post('/upload/postImage', upload.single('file'), (req, res) => {
   if (!req.file) {
-      console.log("No file upload");
-  } 
-  else {
-      console.log(req.file.filename)
-      res.status(201).send(req.file.filename)
+    console.log('No file upload');
+  } else {
+    console.log(req.file.filename);
+    res.status(201).send(req.file.filename);
   }
 });
-
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening to localhost:${port}`));
-
 
 /*
 let insertData = 'INSERT INTO `post` (postImage) VALUES(?)'
