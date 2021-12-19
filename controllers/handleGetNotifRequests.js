@@ -1,5 +1,5 @@
 const handleGetNotifRequests = (req, res, db) => {
-  const { userID, email } = req.body;
+  const { userID, email } = req.query;
   if (!userID) return res.status(400);
 
   db.promise()
