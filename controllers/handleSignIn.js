@@ -9,7 +9,6 @@ const handleSignIn = (req, res, db) => {
     .then((output) => {
       const [results, fields] = output;
       const [user] = results;
-      console.log(user)
       if (!user) {
         //respond with the user object
         console.log('User is null')

@@ -1,6 +1,5 @@
 const handleSaveComments = (req, res, db) => {
     let { userID, postID, commentText} = req.body
-    console.log('In save')
 
     try {
         db.query('INSERT INTO `comment` (`userID`, `postID`, `commentText`) VALUES(?,?,?)', [
@@ -8,7 +7,6 @@ const handleSaveComments = (req, res, db) => {
             postID,
             commentText
         ], (err, result) => {
-            console.log(result)
             return res.status(200).json({postID: result.insertID})
         })
     }

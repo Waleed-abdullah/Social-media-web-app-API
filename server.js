@@ -9,9 +9,12 @@ import handleGetPosts from './controllers/handleGetPosts.js';
 import handleGetComments from './controllers/handleGetComments.js';
 import handleGetUsers from './controllers/handleGetUsers.js';
 import handleGetInterests from './controllers/handleGetInterests.js';
+import handleSetLike from './controllers/handleSetLike.js';
+import handleGetLike from './controllers/handleGetLike.js';
 import multer from 'multer'
 import path from 'path'
 import handleSaveComments from './controllers/handleSaveComments.js';
+import handleDeleteLike from './controllers/handleDeleteLike.js';
 
 const __dirname = path.resolve()
 const app = express();
@@ -66,6 +69,18 @@ app.get('/get/users/:search', async (req, res) => {
 
 app.get('/get/interests/:id', async (req, res) => {
   handleGetInterests(req, res, connection)
+})
+
+app.post('/set/like', async (req, res) => {
+  handleSetLike(req, res, connection)
+})
+
+app.delete('/delete/like', async (req, res) => {
+  handleDeleteLike(req, res, connection)
+})
+
+app.get('/get/like', async (req, res) => {
+  handleGetLike(req, res, connection)
 })
 
 app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));
