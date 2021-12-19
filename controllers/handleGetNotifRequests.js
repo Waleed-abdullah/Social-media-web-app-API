@@ -4,7 +4,7 @@ const handleGetNotifRequests = (req, res, db) => {
 
   db.promise()
     .query(
-      'SELECT `name`, `userID` FROM `user` WHERE userID IN (SELECT `requestedBy` FROM request WHERE `requestedTo` = ?) ',
+      'SELECT `name`, `userID` FROM `user` WHERE userID IN (SELECT `requestedBy` FROM requests WHERE `requestedTo` = ?) ',
       [userID]
     )
     .then((output) => {
