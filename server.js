@@ -19,6 +19,7 @@ import handleSaveComments from './controllers/handleSaveComments.js';
 import handleDeleteLike from './controllers/handleDeleteLike.js';
 import handleDeleteRequest from './controllers/handleDeleteRequest.js';
 import handleGetFriends from './controllers/handleGetFriends.js';
+import handleAcceptRequest from './controllers/handleAcceptRequest.js';
 
 const __dirname = path.resolve();
 const app = express();
@@ -102,6 +103,11 @@ app.get('/get/requested', async (req, res) => {
 app.delete('/delete/request', async (req, res) => {
   handleDeleteRequest(req, res, connection);
 });
+
+app.post('/accept', async (req, res) => {
+  handleAcceptRequest(req, res, connection)
+});
+
 
 app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));
 

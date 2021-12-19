@@ -1,12 +1,12 @@
 const handleGetFriends = (req, res, db) => {
-  const { uid, email } = req.body;
-  if (!uid || !email) return res.status(400);
+  const { userID, email } = req.body;
+  if (!userID || !email) return res.status(400);
   let friendList = [];
   //console.log('uwu');
   db.promise()
     .query(
-      'SELECT `name`, `userID` FROM `user` WHERE userID IN (SELECT `friendID` FROM friend WHERE `userID` = ?) ',
-      [uid]
+      'SELECT `name`, `userID` FROM `user` WHERE userID IN (SELECT `friendID` FROM friend WHERE `userID` = ?)',
+      [userID]
     )
     .then((output) => {
       const [results, fields] = output;
