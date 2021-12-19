@@ -9,13 +9,12 @@ const handleSignIn = (req, res, db) => {
     .then((output) => {
       const [results, fields] = output;
       const [user] = results;
-      console.log(user)
       if (!user) {
         //respond with the user object
-        console.log('User is null')
-        return res.json({user: null});
+        console.log('User is null');
+        return res.status(404).json({ user: null });
       } else {
-        return res.status(200).json({user});
+        return res.status(200).json({ user });
       }
     })
     .catch(() => res.status(500));

@@ -1,19 +1,20 @@
 const handleSaveProfile = (req, res, db) => {
-  const { uid, name, email, region, interests } = req.body;
-  console.log(req.body);
+  const { uid, name, email, region, interests, photoURL } = req.body;
   //check for invalid input
   if (!uid || !email || !name || !region || !interests)
     return res.status(400).json('invalid input');
 
   //update the new values for region and name
   try {
-    db.execute('INSERT INTO `user` VALUES(?, ?, ?, ?)', [
+    db.execute('INSERT INTO `user` VALUES(?, ?, ?, ?, ?)', [
       uid,
       email,
       name,
       region,
+      photoURL,
     ]);
-  } catch (error) {
+  } 
+  catch (error) {
     return res.status(500).json('unable to save data');
   }
 
