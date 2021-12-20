@@ -22,6 +22,7 @@ import handleGetFriends from './controllers/handleGetFriends.js';
 import handleGetNotifRequests from './controllers/handleGetNotifRequests.js';
 import handleRejectRequest from './controllers/handleRejectRequest.js';
 import handleAcceptRequest from './controllers/handleAcceptRequest.js';
+import handleDeleteFriend from './controllers/handleDeleteFriend.js';
 
 const __dirname = path.resolve();
 const app = express();
@@ -43,6 +44,7 @@ connection.connect((err) => {
     console.log('Connected');
   }
 });
+
 
 app.get('/', (req, res) => res.status(200).send('Hello World'));
 
@@ -117,6 +119,10 @@ app.get('/get/requested', async (req, res) => {
 app.delete('/delete/request', async (req, res) => {
   handleDeleteRequest(req, res, connection);
 });
+
+app.delete('/delete/friend', (req, res) => {
+  handleDeleteFriend(req, res, connection)
+})
 
 app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));
 
