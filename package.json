@@ -24,7 +24,8 @@
     "express": "^4.17.1",
     "install": "^0.13.0",
     "multer": "^1.4.4",
-    "mysql2": "^2.3.3-rc.0"
+    "mysql2": "^2.3.3-rc.0",
+    "pusher": "^5.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
