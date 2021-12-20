@@ -13,8 +13,6 @@ import handleSetLike from './controllers/handleSetLike.js';
 import handleGetLike from './controllers/handleGetLike.js';
 import handleSendRequest from './controllers/handleSendRequest.js';
 import handleGetRequested from './controllers/handleGetRequested.js';
-import multer from 'multer';
-import path from 'path';
 import handleSaveComments from './controllers/handleSaveComments.js';
 import handleDeleteLike from './controllers/handleDeleteLike.js';
 import handleDeleteRequest from './controllers/handleDeleteRequest.js';
@@ -22,6 +20,9 @@ import handleGetFriends from './controllers/handleGetFriends.js';
 import handleGetNotifRequests from './controllers/handleGetNotifRequests.js';
 import handleRejectRequest from './controllers/handleRejectRequest.js';
 import handleAcceptRequest from './controllers/handleAcceptRequest.js';
+import handleDeleteFriend from './controllers/handleDeleteFriend.js';
+import multer from 'multer';
+import path from 'path';
 
 const __dirname = path.resolve();
 const app = express();
@@ -118,6 +119,10 @@ app.delete('/delete/request', async (req, res) => {
   handleDeleteRequest(req, res, connection);
 });
 
+app.delete('/delete/friend', async (req, res) => {
+  handleDeleteFriend(req, res, connection)
+})
+
 app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));
 
 let storage = multer.diskStorage({
@@ -147,35 +152,3 @@ app.post('/upload/postImage', upload.single('file'), (req, res) => {
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening to localhost:${port}`));
-
-/*
-let insertData = 'INSERT INTO `post` (postImage) VALUES(?)'
-      connection.query(insertData, [imgsrc], (err, result) => {
-          if (err) {throw err}
-          console.log("file uploaded")
-          res.status(201).send(req.file.filename)
-      })
-*/
-
-/*
-app.get("/retrieve", (req, res) => {
-  const id = 1;
-  const sqlQ = "SELECT postImage FROM post WHERE postID = 6"
-
-  connection.query(sqlQ, [id], (err, result) => {
-    if (err){
-      console.log(err)
-      res.send({
-        msg: err
-      })
-    }
-
-    if (result){
-      console.log(result[0].postImage)
-      res.send({
-        image: result[0].postImage
-      })
-    }
-  })
-})
-*/
