@@ -120,14 +120,14 @@ app.delete('/delete/request', async (req, res) => {
 });
 
 app.delete('/delete/friend', async (req, res) => {
-  handleDeleteFriend(req, res, connection)
-})
+  handleDeleteFriend(req, res, connection);
+});
 
 app.use('/retrieve', express.static(path.join(__dirname, '/public/images')));
 
 let storage = multer.diskStorage({
   destination: (req, file, callBack) => {
-    callBack(null, './public/images/'); // './public/images/' directory name where save the file
+    callBack(null, './public/images/'); // './public/images/' directory name where the file is saved
   },
   filename: (req, file, callBack) => {
     callBack(

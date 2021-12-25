@@ -4,12 +4,12 @@ const handleGetNotifRequests = (req, res, db) => {
 
   db.promise()
     .query(
-      'SELECT `name`, `userID` FROM `user` WHERE userID IN (SELECT `requestedBy` FROM requests WHERE `requestedTo` = ?) ',
+      'SELECT `name`, `userID`, `requestTimestamp` FROM `user` JOIN `requests` ON `userID` = `requestedBy` WHERE  `requestedTo` = ?',
       [userID]
     )
     .then((output) => {
       const [result, fields] = output;
-      console.log(result)
+      console.log(result);
       return res.status(200).json(result);
     })
     .catch((error) => {
