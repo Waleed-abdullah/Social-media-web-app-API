@@ -7,7 +7,15 @@ const handleSaveComments = (req, res, db) => {
             postID,
             commentText
         ], (err, result) => {
-            return res.status(200).json({postID: result.insertID})
+            let commentID = result.insertId
+            db.promise()
+            .query('SELECT `commentTimestamp`, `commentID` FROM comment WHERE commentID = ?', [commentID])
+            .then((output) => {
+                const [results, fields] = output
+                const [result] = results
+                return res.status(200).json({commentID: result.commentID, commentTimestamp: result.commentTimestamp})
+            })
+            .catch(() => res.status(500))            
         })
     }
     catch(error) {
